@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "naive-ui": "^2.30.8",
+    "nuxt": "3.0.0-rc.4"
+  },
+  "dependencies": {
+    "@nuxtjs/supabase": "^0.1.18",
+    "@pinia/nuxt": "^0.1.9",
+    "@vicons/ionicons4": "^0.12.0",
+    "pinia": "^2.0.14",
+    "unplugin-vue-components": "^0.17.21"
+  }
+}
