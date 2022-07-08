@@ -9,7 +9,15 @@ export default defineNuxtConfig({
         '@pinia/nuxt'
     ],
     build: {
-        transpile: ['vueuc'],   // fix dev error: Cannot find module 'vueuc'
+        transpile:
+            process.env.NODE_ENV === 'production'
+                ? [
+                    'naive-ui',
+                    'vueuc',
+                    '@css-render/vue3-ssr',
+                    '@juggle/resize-observer'
+                ]
+                : ['@juggle/resize-observer']
     },
     vite: {
         plugins: [
@@ -21,5 +29,11 @@ export default defineNuxtConfig({
         ssr: {
             noExternal: ['moment', 'naive-ui', '@juggle/resize-observer', '@css-render/vue3-ssr'],
         },
+        optimizeDeps: {
+            include:
+                process.env.NODE_ENV === 'development'
+                    ? ['naive-ui', 'vueuc', 'date-fns-tz/esm/formatInTimeZone']
+                    : []
+        }
     }
 })
