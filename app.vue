@@ -1,7 +1,7 @@
 <template>
-	<div>
+	<n-message-provider>
 		<NuxtLayout>
 			<NuxtPage/>
 		</NuxtLayout>
-	</div>
+	</n-message-provider>
 </template>
