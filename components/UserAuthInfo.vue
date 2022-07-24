@@ -9,7 +9,7 @@ const authStore = useAuthStore()
               trigger="click" placement="bottom-start"
               @select="onExtraOptionClick" >
     <div class="user-auth-info">
-      <n-icon><person-icon /></n-icon>
+      <n-icon class="mr-3"><person-icon /></n-icon>
       <span>{{authStore.userInitials}}</span>
       <n-icon><chevron-down-outline /></n-icon>
     </div>
