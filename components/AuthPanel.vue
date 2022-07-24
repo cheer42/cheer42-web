@@ -15,7 +15,6 @@ async function signout() {
 
 <template>
   <n-card title="Авторизация" size="small">
-    User: <code>{{JSON.stringify(authStore.user)}}</code>
     <n-button @click="signInWithGoogle">Auth with Google</n-button>
   </n-card>
 

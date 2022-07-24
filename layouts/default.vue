@@ -1,5 +1,5 @@
 <template>
-  <header class="site-header">
+  <header class="site-header backdrop-blur sticky top-0 border-b">
     <div class="site-header__main-info">
       <nuxt-link class="site-header__logo" to="/">
         <n-avatar src="/logo.jpg" :size="48" round />
@@ -9,11 +9,6 @@
 
       </nuxt-link>
       <UserAuthInfo />
-      <n-dropdown :options="options" placement="bottom-start">
-        <n-button :bordered="false" circle style="padding: 0 4px">
-          ···
-        </n-button>
-      </n-dropdown>
     </div>
     <n-space justify="space-around">
       <n-button>123</n-button>
@@ -35,10 +30,7 @@ export default defineComponent({
 	name: 'DefaultLayout',
   data() {
     return {
-      options: [
-        { label: 'More episodes', key: '2' },
-        { label: 'More episodes', key: '3' }
-      ]
+
     }
   },
   components: {
@@ -47,6 +39,12 @@ export default defineComponent({
 
 })
 </script>
+
+<style>
+body{
+  @apply bg-gradient-to-tr from-blue-200 bg-slate-300
+}
+</style>
 
 <style scoped>
 .site-header {
