@@ -13,7 +13,6 @@ export const useAuthStore = defineStore('auth', {
         async autoSignIn(supabase: SupabaseClient){
             const user = supabase.auth.user()
             this.user = user
-            console.log(user)
             if (user) {
                 const profile = await this.createProfileIfNotExist(supabase, user)
                 this.profile = profile
