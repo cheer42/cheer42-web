@@ -26,6 +26,8 @@ export const useAuthStore = defineStore('auth', {
         async signInWithGoogle(supabase: SupabaseClient) {
             const { user, session, error } = await supabase.auth.signIn({
                 provider: 'google'
+            }, {
+                redirectTo: window.location.origin
             })
         },
         async createProfileIfNotExist(supabase: SupabaseClient, user: User): Promise<definitions['profiles']>{
