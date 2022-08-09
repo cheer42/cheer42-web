@@ -20,7 +20,7 @@ async function signOut() {
     </n-button>
   </n-dropdown>
   <n-modal v-model:show="showAuthPanel">
-    <AuthPanel style="max-width: 600px" />
+    <AuthPanel @closeModal="showAuthPanel = false" modal style="max-width: 600px" />
   </n-modal>
 </template>
 
