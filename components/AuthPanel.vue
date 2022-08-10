@@ -1,23 +1,12 @@
 <script setup lang="ts">
 import {useAuthStore} from "~/stores/auth"
-import { FormInst, useMessage } from 'naive-ui'
 
 const authStore = useAuthStore()
 const supabase = useSupabaseClient()
-const formRef = ref<FormInst | null>(null)
-const message = useMessage()
 const loginInputs = ref({ email: '', password: '' })
 
 function signInWithEmail() {
   console.log('email')
-  formRef.value?.validate((errors) => {
-    if (!errors) {
-      message.success('Valid')
-    } else {
-      console.log(errors)
-      message.error('Invalid')
-    }
-  })
 }
 
 function signInWithGoogle() {
@@ -30,59 +19,34 @@ async function signout() {
 </script>
 
 <template>
-  <n-card title="Авторизация" size="small"
-          :segmented="{
-            content: true,
-            footer: 'soft'
-          }">
-    <template #header-extra>
-      <n-button v-if="modal" @click="$emit('closeModal')" tertiary >
-        <template #icon>
-          <n-icon><close-outline /></n-icon>
-        </template>
-      </n-button>
-    </template>
-    <n-form
-        ref="formRef"
-        :label-width="80"
-        :model="loginInputs"
-        :rules="rules"
-        size="small"
-        @submit="signInWithEmail"
-    >
-      <n-form-item label="Email" path="user.name">
-        <n-input v-model:value="loginInputs.email" placeholder="Введите email" type="email" />
-      </n-form-item>
-      <n-form-item label="Пароль" path="user.age">
-        <n-input v-model:value="loginInputs.password" placeholder="Введите пароль" type="password" />
-      </n-form-item>
-      <n-form-item>
-        <n-button @click="signInWithEmail">
-          Войти
-        </n-button>
-      </n-form-item>
-    </n-form>
+  <Dialog header="Авторизация" v-model:visible="visible" @update:visible="$emit('update:visible')">
+    <form @submit.prevent="signInWithEmail" >
+      <span class="p-input-icon-right">
+          <InputText type="email" v-model="loginInputs.email" />
+          <i class="pi pi-user" />
+      </span>
+      <span class="p-input-icon-right">
+          <InputText type="password" v-model="loginInputs.password" />
+          <i class="pi pi-lock" />
+      </span>
+      <Button type="submit">
+        Войти
+      </Button>
+    </form>
     <template #footer>
-      #footer
+      <Button @click="signInWithGoogle">Google</Button>
     </template>
-    <template #action>
-      <n-button @click="signInWithGoogle">Google</n-button>
-    </template>
-  </n-card>
+  </Dialog>
 
 </template>
 
 <script lang="ts">
-import { CloseOutline } from '@vicons/ionicons5'
 export default {
   name: "AuthPanel",
   props: {
-    modal: Boolean
+    visible: Boolean
   },
-  emits: ['closeModal'],
-  components: {
-    CloseOutline
-  },
+  emits: ['update:visible'],
   data(){
     return {
       rules: {

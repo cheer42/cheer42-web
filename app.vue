@@ -16,11 +16,10 @@ supabase.auth.onAuthStateChange((event, session) => {
   <Head>
     <Title>CheerShowDance</Title>
   </Head>
-	<n-message-provider>
-		<NuxtLayout :name="layout">
-			<NuxtPage/>
-		</NuxtLayout>
-	</n-message-provider>
+<!--  <NuxtWelcome />-->
+  <NuxtLayout :name="layout">
+    <NuxtPage/>
+  </NuxtLayout>
 </template>
 
 <script lang="ts">

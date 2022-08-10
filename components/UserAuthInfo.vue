@@ -10,50 +10,52 @@ async function signOut() {
 </script>
 
 <template>
-  <n-dropdown :options="dropdownOptions"
-              trigger="click" placement="bottom-start"
-              @select="onExtraOptionClick" >
-    <n-button strong secondary class="user-auth-info text-base">
-      <n-avatar :src="authStore.userAvatar" round />
-      <span class="mx-2">{{authStore.userInitials}}</span>
-      <n-icon><chevron-down-outline /></n-icon>
-    </n-button>
-  </n-dropdown>
-  <n-modal v-model:show="showAuthPanel">
-    <AuthPanel @closeModal="showAuthPanel = false" modal style="max-width: 600px" />
-  </n-modal>
+  <div @click="toggleMenu" class="user-auth-info text-base">
+    <Avatar  :image="authStore.userAvatar" round />
+    <span class="mx-2">{{authStore.userInitials}}</span>
+    <i class="pi pi-angle-down" />
+  </div>
+  <Menu ref="menu" :model="menu" :popup="true" />
+  <AuthPanel v-model:visible="showAuthPanel" />
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import { Person as PersonIcon, ChevronDownOutline } from '@vicons/ionicons5'
 import AuthPanel from '../components/AuthPanel.vue'
-
-const LOGIN_KEY = 'login'
-const LOGOUT_KEY = 'logout'
 
 export default defineComponent({
   name: "UserAuthInfo",
   data() {
     return {
       showAuthPanel: false,
-      dropdownOptions: [
-        { label: 'Войти', key: LOGIN_KEY },
-        { label: 'Выйти', key: LOGOUT_KEY },
+      menu: [
+        {
+          label: 'Авторизация',
+          items: [
+            {
+              label: 'Войти',
+              command: () => {
+                this.toggleAuthPanel()
+              }
+            },
+            {
+              label: 'Выйти',
+              command: () => {
+                this.signOut()
+              }
+            }
+          ]
+        }
       ]
     }
   },
-  components: {AuthPanel, PersonIcon, ChevronDownOutline},
+  components: {AuthPanel},
   methods: {
-    onExtraOptionClick(key){
-      switch (key) {
-        case LOGIN_KEY:
-          this.showAuthPanel = true
-          break;
-        case LOGOUT_KEY:
-          this.signOut()
-          break;
-      }
+    toggleMenu(event){
+      this.$refs.menu.toggle(event)
+    },
+    toggleAuthPanel(){
+      this.showAuthPanel = !this.showAuthPanel
     }
   }
 })
@@ -64,5 +66,9 @@ export default defineComponent({
   user-select: none;
   display: flex;
   align-items: center;
+}
+.user-auth-info:hover{
+  cursor: pointer;
+  background-color: rgba(0,0,0,.1);
 }
 </style>
