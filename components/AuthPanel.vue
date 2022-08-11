@@ -29,6 +29,9 @@ async function signout() {
           <InputText type="password" v-model="loginInputs.password" />
           <i class="pi pi-lock" />
       </span>
+      <nuxt-link to="/auth/register">
+        <Button class="p-button-text">Регистрация</Button>
+      </nuxt-link>
       <Button type="submit">
         Войти
       </Button>

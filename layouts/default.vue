@@ -11,10 +11,10 @@
       <UserAuthInfo />
     </div>
     <div class="flex justify-evenly">
-      <Button>123</Button>
-      <Button>123</Button>
-      <Button>123</Button>
-      <Button>123</Button>
+      <Button class="p-button-link">123</Button>
+      <Button class="p-button-link">123</Button>
+      <Button class="p-button-link">123</Button>
+      <Button class="p-button-link">123</Button>
     </div>
   </header>
   <main>
@@ -39,12 +39,6 @@ export default defineComponent({
 
 })
 </script>
-
-<style>
-body{
-  @apply bg-gradient-to-tr from-blue-200 bg-slate-300
-}
-</style>
 
 <style scoped>
 .site-header {
