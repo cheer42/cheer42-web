@@ -37,44 +37,14 @@ export const useAuthStore = defineStore('auth', {
                 .eq('id', user.id)
                 .single()
             if (error) {
-                let newProfile: definitions['profiles']
                 switch (user.app_metadata.provider) {
                     case 'google':
-                        const [first_name, second_name] = user.user_metadata?.full_name?.split(' ')
-                        newProfile = {
-                            id: user.id,
-                            avatar_url: user.user_metadata.avatar_url,
-                            first_name, second_name
-                        }
-                        break;
+                        return await $fetch<definitions["profiles"]>('/api/auth/register/google', { method: 'POST' })
+                    default:
+                        throw new Error(`Автоматическое создание профиля не имплементировано для ${user.app_metadata.provider}`)
                 }
-                if (newProfile) {
-                    newProfile.avatar_url = await this.uploadAvatar(supabase, newProfile)
-                    const { data: createdProfile, error } = await supabase
-                        .from<definitions['profiles']>('profiles')
-                        .insert(newProfile)
-                        .single()
-                    return createdProfile
-                }
-                throw new Error(`Автоматическое создание профиля не имплементировано для ${user.app_metadata.provider}`)
             }
             return profile
-        },
-        async uploadAvatar(supabase: SupabaseClient, userProfile: definitions['profiles']) {
-            const avatarResponse = await fetch(userProfile.avatar_url, { referrerPolicy: 'no-referrer' })
-            const avatarFile = await avatarResponse.blob()
-            const filePath = `${userProfile.id}/avatar.${avatarFile.type.split('/')[1]}`
-            if (avatarFile) {
-                await supabase
-                    .storage
-                    .from('avatars')
-                    .upload(filePath, avatarFile, {
-                        cacheControl: '3600',
-                        upsert: true
-                    })
-                const { publicURL } = supabase.storage.from('avatars').getPublicUrl(filePath)
-                return publicURL
-            }
         }
     },
     getters: {
@@ -87,7 +57,7 @@ export const useAuthStore = defineStore('auth', {
             if (profile){
                 return profile.avatar_url || `https://avatars.dicebear.com/api/adventurer-neutral/${profile.id}.svg`
             }
-            return `https://avatars.dicebear.com/api/adventurer-neutral/asgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg.svg`
+            return `https://avatars.dicebear.com/api/adventurer-neutral/guest.svg`
         }
     }
 })

@@ -2,20 +2,20 @@
   <header class="site-header backdrop-blur sticky top-0 border-b">
     <div class="site-header__main-info">
       <nuxt-link class="site-header__logo" to="/">
-        <n-avatar src="/logo.jpg" :size="48" round />
-        <n-gradient-text :size="24" type="success">
+        <Avatar image="/logo.jpg" :size="'normal'" />
+        <span >
           CheerShowDance
-        </n-gradient-text>
+        </span>
 
       </nuxt-link>
       <UserAuthInfo />
     </div>
-    <n-space justify="space-around">
-      <n-button>123</n-button>
-      <n-button>123</n-button>
-      <n-button>123</n-button>
-      <n-button>123</n-button>
-    </n-space>
+    <div class="flex justify-evenly">
+      <Button class="p-button-link">123</Button>
+      <Button class="p-button-link">123</Button>
+      <Button class="p-button-link">123</Button>
+      <Button class="p-button-link">123</Button>
+    </div>
   </header>
   <main>
     <slot />
@@ -39,12 +39,6 @@ export default defineComponent({
 
 })
 </script>
-
-<style>
-body{
-  @apply bg-gradient-to-tr from-blue-200 bg-slate-300
-}
-</style>
 
 <style scoped>
 .site-header {
