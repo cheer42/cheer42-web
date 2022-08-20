@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
             if (error) {
                 switch (user.app_metadata.provider) {
                     case 'google':
-                        return await $fetch<definitions["profiles"]>('/api/auth/register/google', { method: 'POST' })
+                        return await $fetch<definitions["profiles"]>('/api/v1/auth/register/google', { method: 'POST' })
                     default:
                         throw new Error(`Автоматическое создание профиля не имплементировано для ${user.app_metadata.provider}`)
                 }
