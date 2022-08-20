@@ -13,11 +13,16 @@ function signInWithGoogle() {
   authStore.signInWithGoogle(supabase)
 }
 
+function signInWithVk() {
+  authStore.signInWithVk(useRuntimeConfig())
+}
+
 </script>
 
 <template>
   <Dialog header="Авторизация" v-model:visible="visible" @update:visible="$emit('update:visible')">
     <Button @click="signInWithGoogle">Google</Button>
+    <Button @click="signInWithVk">VK</Button>
 <!--    <form @submit.prevent="signInWithEmail" >-->
 <!--      <span class="p-input-icon-right">-->
 <!--          <InputText type="email" v-model="loginInputs.email" />-->

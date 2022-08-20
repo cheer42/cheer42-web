@@ -4,6 +4,9 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+    publicRuntimeConfig: {
+        VK_CLIENT_ID: process.env.VK_CLIENT_ID
+    },
     css: [
         "~/assets/css/tailwind.css",
         'primevue/resources/themes/saga-blue/theme.css',
