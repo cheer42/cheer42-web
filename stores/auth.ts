@@ -13,7 +13,10 @@ export const useAuthStore = defineStore('auth', {
         }
     },
     actions: {
-        async autoSignIn(supabase: SupabaseClient){
+        async autoSignIn(supabase: SupabaseClient, vkJwt: string | null){
+            if (vkJwt) {
+                console.log(supabase.auth.setAuth(vkJwt))
+            }
             const user = supabase.auth.user()
             this.user = user
             if (user) {

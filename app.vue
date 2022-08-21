@@ -3,11 +3,12 @@ import {useAuthStore} from "~/stores/auth";
 
 const supabase = useSupabaseClient()
 const authStore = useAuthStore()
+const vkJwt = useCookie('vk-user-jwt')
 
-authStore.autoSignIn(supabase)
+authStore.autoSignIn(supabase, vkJwt.value)
 
 supabase.auth.onAuthStateChange((event, session) => {
-  authStore.autoSignIn(supabase)
+  authStore.autoSignIn(supabase, vkJwt.value)
 })
 
 </script>
