@@ -9,6 +9,7 @@
     "generate-supabase-types": "node scripts/generate-supabase-types.mjs"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.8",
     "autoprefixer": "^10.4.7",
     "nuxt": "3.0.0-rc.4",
     "openapi-typescript": "^5.4.1",
@@ -18,9 +19,11 @@
   "dependencies": {
     "@nuxtjs/supabase": "^0.1.18",
     "@pinia/nuxt": "^0.1.9",
+    "jsonwebtoken": "^8.5.1",
     "pinia": "^2.0.14",
     "primeicons": "^5.0.0",
     "primevue": "^3.15.0",
-    "unplugin-vue-components": "^0.17.21"
+    "unplugin-vue-components": "^0.17.21",
+    "vk-io": "^4.6.0"
   }
 }

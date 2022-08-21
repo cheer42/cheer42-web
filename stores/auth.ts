@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
 import { SupabaseClient, User } from "@supabase/supabase-js";
 import {definitions} from "~/types/supabase";
+import {Router} from "vue-router";
+import NuxtConfig from "~/nuxt.config";
+import {RuntimeConfig} from "@nuxt/schema";
 
 export const useAuthStore = defineStore('auth', {
     state() {
@@ -10,7 +13,10 @@ export const useAuthStore = defineStore('auth', {
         }
     },
     actions: {
-        async autoSignIn(supabase: SupabaseClient){
+        async autoSignIn(supabase: SupabaseClient, vkJwt: string | null){
+            if (vkJwt) {
+                supabase.auth.setAuth(vkJwt)
+            }
             const user = supabase.auth.user()
             this.user = user
             if (user) {
@@ -30,6 +36,23 @@ export const useAuthStore = defineStore('auth', {
                 redirectTo: window.location.origin
             })
         },
+        async signInWithVk(config: RuntimeConfig) {
+            // function encodeQueryData(data) {
+            //     const ret = [];
+            //     for (let d in data)
+            //         ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+            //     return ret.join('&');
+            // }
+            // const query = {
+            //     client_id: config.VK_CLIENT_ID,
+            //     redirect_uri: `${window.location.origin}/api/v1/auth/vk/callback`,
+            //     display: 'page',
+            //     response_type: 'code',
+            //     scope: 4194304 + 65536
+            // }
+            // const vkOauthUrl = `https://oauth.vk.com/authorize?${encodeQueryData(query)}`
+            // window.location.href = vkOauthUrl
+        },
         async createProfileIfNotExist(supabase: SupabaseClient, user: User): Promise<definitions['profiles']>{
             const {data: profile, error} = await supabase
                 .from<definitions['profiles']>('profiles')
@@ -39,7 +62,7 @@ export const useAuthStore = defineStore('auth', {
             if (error) {
                 switch (user.app_metadata.provider) {
                     case 'google':
-                        return await $fetch<definitions["profiles"]>('/api/auth/register/google', { method: 'POST' })
+                        return await $fetch<definitions["profiles"]>('/api/v1/auth/register/google', { method: 'POST' })
                     default:
                         throw new Error(`Автоматическое создание профиля не имплементировано для ${user.app_metadata.provider}`)
                 }
