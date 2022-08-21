@@ -47,7 +47,8 @@ export const useAuthStore = defineStore('auth', {
                 response_type: 'code',
                 scope: 4194304 + 65536
             }
-            window.location.href = `https://oauth.vk.com/authorize?${encodeQueryData(query)}`
+            const vkOauthUrl = `https://oauth.vk.com/authorize?${encodeQueryData(query)}`
+            window.location.href = vkOauthUrl
         },
         async createProfileIfNotExist(supabase: SupabaseClient, user: User): Promise<definitions['profiles']>{
             const {data: profile, error} = await supabase

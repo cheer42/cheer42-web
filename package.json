@@ -23,6 +23,7 @@
     "pinia": "^2.0.14",
     "primeicons": "^5.0.0",
     "primevue": "^3.15.0",
-    "unplugin-vue-components": "^0.17.21"
+    "unplugin-vue-components": "^0.17.21",
+    "vk-io": "^4.6.0"
   }
 }

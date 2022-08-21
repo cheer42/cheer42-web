@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken'
 import {setCookie, sendRedirect, useQuery} from "h3";
+import { serverSupabaseServiceRole } from '#supabase/server'
+import { VK } from 'vk-io';
 
 type AccessTokenSuccess = {
     access_token: string,
@@ -13,11 +15,9 @@ type AccessTokenError = {
 }
 
 export default defineEventHandler(async (event) => {
-    const data = {}
-    const token = jwt.sign(data, process.env.SUPABASE_JWT_SECRET)
-    // setCookie(event, 'jwt', token)
+    // Обработать запрос от VK OAuth
     const {code} = useQuery(event)
-    const response = await $fetch<AccessTokenSuccess | AccessTokenError>(
+    const response = await $fetch<AccessTokenSuccess>(
             'https://oauth.vk.com/access_token', {
             params: {
                 client_id: process.env.VK_CLIENT_ID,
@@ -27,6 +27,10 @@ export default defineEventHandler(async (event) => {
             }
         }
     )
-    console.log(response)
+    // Создать клиент VK API на основе полученного токена доступа
+    const vk = new VK({ token: response.access_token })
+    // Получить информацию о пользователе
+    const [vkAccountInfo] = await vk.api.users.get({ fields: ['bdate', 'photo_200_orig', 'photo_max_orig', 'sex'] })
+    console.log(vkAccountInfo)
     return ''
 })
