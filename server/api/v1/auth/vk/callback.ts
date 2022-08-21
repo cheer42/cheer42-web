@@ -19,6 +19,7 @@ type AccessTokenError = {
 }
 
 export default defineEventHandler(async (event) => {
+    return
     // Обработать запрос от VK OAuth
     const {code} = useQuery(event)
     const oauthResponse = await $fetch<AccessTokenSuccess>(
@@ -36,7 +37,6 @@ export default defineEventHandler(async (event) => {
     // Получить информацию о пользователе
     const [vkAccountInfo] = await vk.api.users.get({ fields: ['bdate', 'photo_200_orig', 'photo_max_orig', 'sex'] })
     const supabaseService = serverSupabaseServiceRole(event)
-    await supabaseService.auth.api.deleteUser('74c6f910-14ed-400f-bdda-241f72c5f0ad')
     // Найти пользователя по vk ID
     const { data: existingUser} = await supabaseService
         .from('users')
@@ -98,8 +98,6 @@ async function setAuth(event: CompatibilityEvent, token: string) {
     const supabase = serverSupabaseClient(event)
     supabase.auth.setAuth(token)
     setCookie(event, 'vk-user-jwt', token, { maxAge: 5*1000} )
-    console.log(await supabase.auth.api.getUser(token))
-    // console.log(supabase.auth.setAuth(token))
 
 }
 

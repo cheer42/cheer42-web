@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         async autoSignIn(supabase: SupabaseClient, vkJwt: string | null){
             if (vkJwt) {
-                console.log(supabase.auth.setAuth(vkJwt))
+                supabase.auth.setAuth(vkJwt)
             }
             const user = supabase.auth.user()
             this.user = user
@@ -37,21 +37,21 @@ export const useAuthStore = defineStore('auth', {
             })
         },
         async signInWithVk(config: RuntimeConfig) {
-            function encodeQueryData(data) {
-                const ret = [];
-                for (let d in data)
-                    ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
-                return ret.join('&');
-            }
-            const query = {
-                client_id: config.VK_CLIENT_ID,
-                redirect_uri: `${window.location.origin}/api/v1/auth/vk/callback`,
-                display: 'page',
-                response_type: 'code',
-                scope: 4194304 + 65536
-            }
-            const vkOauthUrl = `https://oauth.vk.com/authorize?${encodeQueryData(query)}`
-            window.location.href = vkOauthUrl
+            // function encodeQueryData(data) {
+            //     const ret = [];
+            //     for (let d in data)
+            //         ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+            //     return ret.join('&');
+            // }
+            // const query = {
+            //     client_id: config.VK_CLIENT_ID,
+            //     redirect_uri: `${window.location.origin}/api/v1/auth/vk/callback`,
+            //     display: 'page',
+            //     response_type: 'code',
+            //     scope: 4194304 + 65536
+            // }
+            // const vkOauthUrl = `https://oauth.vk.com/authorize?${encodeQueryData(query)}`
+            // window.location.href = vkOauthUrl
         },
         async createProfileIfNotExist(supabase: SupabaseClient, user: User): Promise<definitions['profiles']>{
             const {data: profile, error} = await supabase

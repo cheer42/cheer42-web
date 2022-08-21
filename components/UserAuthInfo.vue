@@ -4,6 +4,10 @@ import {useAuthStore} from "~/stores/auth";
 const authStore = useAuthStore()
 const supabase = useSupabaseClient()
 
+function signIn() {
+  authStore.signInWithGoogle(supabase)
+}
+
 async function signOut() {
   await authStore.signOut(supabase)
 }
@@ -16,7 +20,7 @@ async function signOut() {
     <i class="pi pi-angle-down" />
   </div>
   <Menu ref="menu" :model="menu" :popup="true" />
-  <AuthPanel v-model:visible="showAuthPanel" />
+<!--  <AuthPanel v-model:visible="showAuthPanel" />-->
 </template>
 
 <script lang="ts">
@@ -33,13 +37,15 @@ export default defineComponent({
           label: 'Авторизация',
           items: [
             {
-              label: 'Войти',
+              label: 'Войти через Google',
+              icon: 'pi pi-google',
               command: () => {
-                this.toggleAuthPanel()
+                this.signIn()
               }
             },
             {
               label: 'Выйти',
+              icon: 'pi pi-sign-out',
               command: () => {
                 this.signOut()
               }
@@ -49,7 +55,9 @@ export default defineComponent({
       ]
     }
   },
-  components: {AuthPanel},
+  components: {
+    //AuthPanel
+  },
   methods: {
     toggleMenu(event){
       this.$refs.menu.toggle(event)
